@@ -6,3 +6,9 @@ spring:
       host: localhost
       port: 27017
       database: base
+      authentication-database: admin
+      username: root
+      password: root
+
+server:
+  port: 20000
