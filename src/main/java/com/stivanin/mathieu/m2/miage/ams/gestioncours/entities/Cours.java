@@ -19,7 +19,7 @@ import java.util.Date;
 public class Cours {
 
     @Id
-    private String id;
+    private Long idCours;
 
     @Field
     private String nom;
