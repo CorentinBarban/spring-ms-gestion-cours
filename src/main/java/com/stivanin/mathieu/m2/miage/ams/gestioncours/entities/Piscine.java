@@ -17,7 +17,6 @@ import org.springframework.data.mongodb.core.mapping.Field;
 @Document(collection="piscines")
 public class Piscine {
 
-    // ID ???
     @Id
     private Long idPiscine;
 

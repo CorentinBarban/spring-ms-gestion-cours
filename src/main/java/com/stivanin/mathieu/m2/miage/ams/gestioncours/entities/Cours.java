@@ -36,4 +36,6 @@ public class Cours {
     @Field
     private long duree;
 
+    //Enseignant ? Cf sujet
+
 }
