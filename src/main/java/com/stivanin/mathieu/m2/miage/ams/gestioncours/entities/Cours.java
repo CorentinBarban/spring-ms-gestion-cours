@@ -9,6 +9,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
 import java.util.Date;
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -36,6 +37,13 @@ public class Cours {
     @Field
     private long duree;
 
-    //Enseignant ? Cf sujet
+    @Field
+    private Long idEnseignant;
+
+    @Field
+    private Piscine piscine;
+
+    @Field
+    List<Long> listeParticipants;
 
 }
