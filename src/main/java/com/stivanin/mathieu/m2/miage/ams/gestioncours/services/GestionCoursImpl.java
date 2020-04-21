@@ -8,11 +8,13 @@ import com.stivanin.mathieu.m2.miage.ams.gestioncours.exceptions.PiscineNotFound
 import com.stivanin.mathieu.m2.miage.ams.gestioncours.repository.CoursRepository;
 import com.stivanin.mathieu.m2.miage.ams.gestioncours.repository.PiscineRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Optional;
 
+@Service
 public class GestionCoursImpl implements GestionCoursMetier {
 
     @Autowired
@@ -68,7 +70,8 @@ public class GestionCoursImpl implements GestionCoursMetier {
             return this.piscineRepository.findById(idPiscine).get();
         } else {
             throw new PiscineNotFoundException("La piscine n'existe pas");
-        }    }
+        }
+    }
 
     @Override
     public Cours inscriptionCours(Long idCours, Long idMembre) throws CoursNotFoundException {
@@ -79,7 +82,5 @@ public class GestionCoursImpl implements GestionCoursMetier {
         } else {
             throw new CoursNotFoundException("Le cours n'existe pas");
         }
-
-
     }
 }

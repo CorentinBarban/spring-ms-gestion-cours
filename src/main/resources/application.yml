@@ -7,8 +7,8 @@ spring:
       port: 27017
       database: base
       authentication-database: admin
-      username: root
-      password: root
-
+logging:
+  level:
+    org.springframework.web: INFO
 server:
-  port: 20000
+  port: 8089
