@@ -31,13 +31,22 @@ public class CoursController {
         }
     }
 
-    @GetMapping("")
-    public Iterable<Cours> getListeCours(@RequestParam("user") String id) {//TODO
+    @GetMapping("/enseignant")
+    public Iterable<Cours> getListeCoursEnseignant(@RequestParam("enseignant") String id) {
         long idl = Long.parseLong(id);
         logger.info("Obtenir la liste des cours");
         logger.info("Option reçue {}", idl);
 
-        return this.gestionCoursMetier.listerCours(idl);
+        return this.gestionCoursMetier.getCoursEnseignant(idl);
+    }
+
+    @GetMapping("/participant")
+    public Iterable<Cours> getListeCoursParticipant(@RequestParam("participant") String id) {
+        long idl = Long.parseLong(id);
+        logger.info("Obtenir la liste des cours");
+        logger.info("Option reçue {}", idl);
+
+        return this.gestionCoursMetier.getCoursParticipant(idl);
     }
 
 

@@ -7,6 +7,8 @@ import java.util.List;
 
 public interface CoursRepository extends MongoRepository<Cours, Long> {
 
-    List<Cours> findAllByIdEnseignant(Long idUser);
+    List<Cours> findAllByIdEnseignant(Long idEnseignant);
+
+    List<Cours> findAllByListeParticipantsContains(Long idParticipant);
 
 }

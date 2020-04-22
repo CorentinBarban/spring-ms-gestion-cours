@@ -12,10 +12,12 @@ import java.util.Optional;
 public interface GestionCoursMetier {
 
     /**
-     * Lister tous les cours
+     * Lister tous les cours d'un enseignant
      * @return liste de cours
      */
-    Iterable<Cours> listerCours(Long idUser);
+    Iterable<Cours> getCoursEnseignant(Long idEnseignant);
+
+    Iterable<Cours> getCoursParticipant(Long idParticipant);
 
     /**
      * Lister toutes les piscines
