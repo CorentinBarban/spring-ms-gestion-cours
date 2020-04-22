@@ -41,7 +41,7 @@ public class PiscineController {
 
     @PostMapping("")
     public Piscine postPiscine(@RequestBody Piscine piscine) {
-        logger.info("Création d'une nouvelle piscine " + piscine);
+        logger.info("Création d'une nouvelle piscine : " + piscine);
         return this.gestionCoursMetier.creerPiscine(piscine);
     }
 }

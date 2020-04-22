@@ -32,11 +32,14 @@ public class CoursController {
     }
 
     @GetMapping("")
-    public Iterable<Cours> getListeCours() {
-
+    public Iterable<Cours> getListeCours(@RequestParam("user") String id) {//TODO
+        long idl = Long.parseLong(id);
         logger.info("Obtenir la liste des cours");
-        return this.gestionCoursMetier.listerCours();
+        logger.info("Option reçue {}", idl);
+
+        return this.gestionCoursMetier.listerCours(idl);
     }
+
 
     @PostMapping("")
     public Cours postCours(@RequestBody Cours cours) {

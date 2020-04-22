@@ -24,8 +24,8 @@ public class GestionCoursImpl implements GestionCoursMetier {
     CoursRepository coursRepository;
 
     @Override
-    public Iterable<Cours> listerCours() {
-        return this.coursRepository.findAll();
+    public Iterable<Cours> listerCours(Long idUser) {
+        return this.coursRepository.findAllByIdEnseignant(idUser);
     }
 
     @Override

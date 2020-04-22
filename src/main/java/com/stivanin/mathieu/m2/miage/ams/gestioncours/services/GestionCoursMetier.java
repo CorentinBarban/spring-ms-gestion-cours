@@ -15,7 +15,7 @@ public interface GestionCoursMetier {
      * Lister tous les cours
      * @return liste de cours
      */
-    Iterable<Cours> listerCours();
+    Iterable<Cours> listerCours(Long idUser);
 
     /**
      * Lister toutes les piscines
@@ -54,8 +54,8 @@ public interface GestionCoursMetier {
      */
     Piscine getPiscine(Long idPiscine) throws PiscineNotFoundException;
 
+
     Cours inscriptionCours(Long idCours, Long idMembre) throws CoursNotFoundException;
 
-    //Gestion des exceptions (Piscine not found, Cours not found)
 
 }
