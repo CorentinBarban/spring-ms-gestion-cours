@@ -4,6 +4,7 @@ import com.stivanin.mathieu.m2.miage.ams.gestioncours.entities.Cours;
 import com.stivanin.mathieu.m2.miage.ams.gestioncours.entities.Piscine;
 import com.stivanin.mathieu.m2.miage.ams.gestioncours.exceptions.BadDateException;
 import com.stivanin.mathieu.m2.miage.ams.gestioncours.exceptions.CoursNotFoundException;
+import com.stivanin.mathieu.m2.miage.ams.gestioncours.exceptions.InscriptionException;
 import com.stivanin.mathieu.m2.miage.ams.gestioncours.exceptions.PiscineNotFoundException;
 import com.stivanin.mathieu.m2.miage.ams.gestioncours.repository.CoursRepository;
 import com.stivanin.mathieu.m2.miage.ams.gestioncours.repository.PiscineRepository;
@@ -12,32 +13,42 @@ import org.springframework.stereotype.Service;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 @Service
 public class GestionCoursImpl implements GestionCoursMetier {
 
     @Autowired
-    PiscineRepository piscineRepository;
-
-    @Autowired
     CoursRepository coursRepository;
 
+    /**
+     * Lister tous les cours d'un enseignant
+     *
+     * @return liste de cours
+     */
     @Override
     public Iterable<Cours> getCoursEnseignant(Long idEnseignant) {
         return this.coursRepository.findAllByIdEnseignant(idEnseignant);
     }
 
+    /**
+     * Lister tous les cours d'un participant
+     *
+     * @return liste de cours
+     */
     @Override
     public Iterable<Cours> getCoursParticipant(Long idParticipant) {
         return this.coursRepository.findAllByListeParticipantsContains(idParticipant);
     }
 
-    @Override
-    public Iterable<Piscine> listerPiscines() {
-        return this.piscineRepository.findAll();
-    }
-
+    /**
+     * Créer un nouveau cours
+     *
+     * @param cours Un cours
+     * @return Un cours
+     * @throws BadDateException
+     */
     @Override
     public Cours creerCours(Cours cours) throws BadDateException {
 
@@ -55,11 +66,13 @@ public class GestionCoursImpl implements GestionCoursMetier {
 
     }
 
-    @Override
-    public Piscine creerPiscine(Piscine piscine) {
-        return this.piscineRepository.save(piscine);
-    }
-
+    /**
+     * Obtenir les informations d'un cours
+     *
+     * @param idCours Identifiant d'un cours
+     * @return Un cours
+     * @throws CoursNotFoundException
+     */
     @Override
     public Cours getCours(Long idCours) throws CoursNotFoundException {
         if (this.coursRepository.existsById(idCours)) {
@@ -69,21 +82,46 @@ public class GestionCoursImpl implements GestionCoursMetier {
         }
     }
 
+    /**
+     * Verifier s'il est possible de s'inscrire à un cours
+     *
+     * @param idCours
+     * @return
+     * @throws CoursNotFoundException
+     */
     @Override
-    public Piscine getPiscine(Long idPiscine) throws PiscineNotFoundException {
-        if (this.piscineRepository.existsById(idPiscine)) {
-            return this.piscineRepository.findById(idPiscine).get();
+    public Boolean inscriptionCoursIsPossible(Long idCours) throws CoursNotFoundException {
+        if (this.coursRepository.existsById(idCours)) {
+            Cours cours = this.coursRepository.findById(idCours).get();
+            List<Long> listeParticipants = cours.getListeParticipants();
+            if (listeParticipants.size() < 2) {
+                return true;
+            } else {
+                return false;
+            }
         } else {
-            throw new PiscineNotFoundException("La piscine n'existe pas");
+            throw new CoursNotFoundException("La cours n'existe pas");
         }
     }
 
+    /**
+     * S'inscrire à un cours en tant que participant
+     *
+     * @param idCours
+     * @param idParticipant
+     * @return
+     * @throws CoursNotFoundException
+     */
     @Override
-    public Cours inscriptionCours(Long idCours, Long idMembre) throws CoursNotFoundException {
+    public Cours inscriptionCours(Long idCours, Long idParticipant) throws CoursNotFoundException, InscriptionException {
         if (this.coursRepository.existsById(idCours)) {
-            Cours cours = this.coursRepository.findById(idCours).get();
-            cours.getListeParticipants().add(idMembre);
-            return this.coursRepository.save(cours); // A VERIFIER SI CA MET A JOUR ET NON DUPLIQUE LE COURS
+            if (inscriptionCoursIsPossible(idCours)) {
+                Cours cours = this.coursRepository.findById(idCours).get();
+                cours.getListeParticipants().add(idParticipant);
+                return this.coursRepository.save(cours);
+            } else {
+                throw new InscriptionException("Impossible de s'inscrire au cours, le quota est atteint");
+            }
         } else {
             throw new CoursNotFoundException("Le cours n'existe pas");
         }

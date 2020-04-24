@@ -3,6 +3,7 @@ package com.stivanin.mathieu.m2.miage.ams.gestioncours.rest;
 import com.stivanin.mathieu.m2.miage.ams.gestioncours.entities.Cours;
 import com.stivanin.mathieu.m2.miage.ams.gestioncours.exceptions.BadDateException;
 import com.stivanin.mathieu.m2.miage.ams.gestioncours.exceptions.CoursNotFoundException;
+import com.stivanin.mathieu.m2.miage.ams.gestioncours.exceptions.InscriptionException;
 import com.stivanin.mathieu.m2.miage.ams.gestioncours.services.GestionCoursMetier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -49,16 +50,39 @@ public class CoursController {
         return this.gestionCoursMetier.getCoursParticipant(idl);
     }
 
+    @GetMapping("/{id}/inscriptions")
+    public Boolean getInscriptionIsPossible(@PathVariable("id") Long idCours) {
+        logger.info("Savoir s'il est possible de s'inscrire à un cours");
+        try {
+            return this.gestionCoursMetier.inscriptionCoursIsPossible(idCours);
+        } catch (CoursNotFoundException e) {
+            throw new ResponseStatusException(
+                    HttpStatus.NOT_FOUND, e.getMessage(), e);
+        }
+    }
+
+    @PutMapping("/{id}/inscriptions")
+    public Cours postInscriptionParticipant(@PathVariable("id") Long idCours, @RequestParam("participant") String idPar) {
+        long idParticipant = Long.parseLong(idPar);
+        logger.info("Ajouter un participant à un nouveau cours");
+        logger.info("Option reçue idCours :{} idParticipant {}", idCours, idParticipant);
+        try {
+            return this.gestionCoursMetier.inscriptionCours(idCours, idParticipant);
+        } catch (CoursNotFoundException | InscriptionException e) {
+            throw new ResponseStatusException(
+                    HttpStatus.NOT_FOUND, e.getMessage(), e);
+        }
+    }
 
     @PostMapping("")
     public Cours postCours(@RequestBody Cours cours) {
 
-        logger.info("Création d'un nouveau cours " + cours );
+        logger.info("Création d'un nouveau cours " + cours);
         try {
             return this.gestionCoursMetier.creerCours(cours);
         } catch (BadDateException e) {
             throw new ResponseStatusException(
-                    HttpStatus.NOT_FOUND, "La date renseignée n'est pas correcte", e);
+                    HttpStatus.NOT_FOUND, e.getMessage(), e);
         }
     }
 
