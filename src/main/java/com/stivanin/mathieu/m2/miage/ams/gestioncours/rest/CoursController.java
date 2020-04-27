@@ -34,7 +34,7 @@ public class CoursController {
 
     @GetMapping("/enseignant")
     public Iterable<Cours> getListeCoursEnseignant(@RequestParam("enseignant") String id) {
-        long idl = Long.parseLong(id);
+        Long idl = Long.parseLong(id);
         logger.info("Obtenir la liste des cours");
         logger.info("Option reçue {}", idl);
 

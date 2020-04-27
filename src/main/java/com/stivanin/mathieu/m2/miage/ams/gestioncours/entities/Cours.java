@@ -32,13 +32,13 @@ public class Cours {
     private Date date;
 
     @Field
-    private long duree;
+    private Long duree;
 
     @Field
     private Long idEnseignant;
 
     @Field
-    private Piscine piscine;
+    private String idPiscine;
 
     @Field
     List<Long> listeParticipants;

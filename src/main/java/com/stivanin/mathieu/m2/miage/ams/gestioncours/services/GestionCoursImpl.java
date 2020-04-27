@@ -1,20 +1,16 @@
 package com.stivanin.mathieu.m2.miage.ams.gestioncours.services;
 
 import com.stivanin.mathieu.m2.miage.ams.gestioncours.entities.Cours;
-import com.stivanin.mathieu.m2.miage.ams.gestioncours.entities.Piscine;
 import com.stivanin.mathieu.m2.miage.ams.gestioncours.exceptions.BadDateException;
 import com.stivanin.mathieu.m2.miage.ams.gestioncours.exceptions.CoursNotFoundException;
 import com.stivanin.mathieu.m2.miage.ams.gestioncours.exceptions.InscriptionException;
-import com.stivanin.mathieu.m2.miage.ams.gestioncours.exceptions.PiscineNotFoundException;
 import com.stivanin.mathieu.m2.miage.ams.gestioncours.repository.CoursRepository;
-import com.stivanin.mathieu.m2.miage.ams.gestioncours.repository.PiscineRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class GestionCoursImpl implements GestionCoursMetier {
