@@ -54,7 +54,7 @@ public class GestionCoursImpl implements GestionCoursMetier {
         c.add(Calendar.DATE, 7); //Projection dans 7j à partir de la date du jour
         Date newDate = c.getTime();
 
-        if (newDate.compareTo(cours.getDate()) < 0) { //Si le cours est dans moins de 7 jours, ce n'est pas bon
+        if (newDate.compareTo(cours.getDate()) > 0) { //Si le cours est dans moins de 7 jours, ce n'est pas bon
             throw new BadDateException("La date d’un cours doit toujours être supérieure de 7 jours calendaires par rapport à la date de saisie. ");
         } else {
             return this.coursRepository.save(cours);
@@ -90,7 +90,7 @@ public class GestionCoursImpl implements GestionCoursMetier {
         if (this.coursRepository.existsById(idCours)) {
             Cours cours = this.coursRepository.findById(idCours).get();
             List<Long> listeParticipants = cours.getListeParticipants();
-            if (listeParticipants.size() < 2) {
+            if (listeParticipants.size() < 2 && cours.getDate().after(new Date())) {
                 return true;
             } else {
                 return false;

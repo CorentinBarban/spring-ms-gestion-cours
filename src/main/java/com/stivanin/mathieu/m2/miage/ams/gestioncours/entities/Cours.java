@@ -13,7 +13,7 @@ import java.util.List;
 @Getter
 @Setter
 @ToString
-@Document(collection="cours")
+@Document(collection = "cours")
 public class Cours {
 
     @Id
