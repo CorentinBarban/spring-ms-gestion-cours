@@ -12,6 +12,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/cours")
 public class CoursController {
@@ -30,6 +32,13 @@ public class CoursController {
             throw new ResponseStatusException(
                     HttpStatus.NOT_FOUND, "Cours Not Found", e);
         }
+    }
+
+    @GetMapping("")
+    public List<Cours> getListeCours(){
+        logger.info("Obtenir la liste de tous les cours");
+
+        return this.gestionCoursMetier.getListeCours();
     }
 
     @GetMapping("/enseignant")
@@ -85,5 +94,4 @@ public class CoursController {
                     HttpStatus.NOT_FOUND, e.getMessage(), e);
         }
     }
-
 }

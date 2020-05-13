@@ -79,6 +79,17 @@ public class GestionCoursImpl implements GestionCoursMetier {
     }
 
     /**
+     * Obtenir la liste de tous les cours
+     *
+     * @return Les cours
+     */
+    @Override
+    public List<Cours> getListeCours() {
+        return this.coursRepository.findAll();
+    }
+
+
+    /**
      * Verifier s'il est possible de s'inscrire à un cours
      *
      * @param idCours

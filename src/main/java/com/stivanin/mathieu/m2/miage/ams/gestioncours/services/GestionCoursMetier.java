@@ -5,6 +5,8 @@ import com.stivanin.mathieu.m2.miage.ams.gestioncours.exceptions.BadDateExceptio
 import com.stivanin.mathieu.m2.miage.ams.gestioncours.exceptions.CoursNotFoundException;
 import com.stivanin.mathieu.m2.miage.ams.gestioncours.exceptions.InscriptionException;
 
+import java.util.List;
+
 
 public interface GestionCoursMetier {
 
@@ -39,6 +41,14 @@ public interface GestionCoursMetier {
      * @throws CoursNotFoundException
      */
     Cours getCours(Long idCours) throws CoursNotFoundException;
+
+
+    /**
+     * Obtenir la liste de tous les cours
+     *
+     * @return Les cours
+     */
+    List<Cours> getListeCours();
 
     /**
      * Verifier s'il est possible de s'inscrire à un cours

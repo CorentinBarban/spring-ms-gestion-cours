@@ -11,4 +11,6 @@ public interface CoursRepository extends MongoRepository<Cours, Long> {
 
     List<Cours> findAllByListeParticipantsContains(Long idParticipant);
 
+
+
 }
