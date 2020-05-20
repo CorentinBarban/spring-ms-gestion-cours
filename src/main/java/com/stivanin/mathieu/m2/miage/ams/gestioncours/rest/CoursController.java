@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -16,6 +17,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/cours")
+@CrossOrigin
 public class CoursController {
 
     Logger logger = LoggerFactory.getLogger(CoursController.class);
@@ -70,6 +72,7 @@ public class CoursController {
         }
     }
 
+    @PreAuthorize("#oauth2.hasScope('write') and hasRole('ROLE_ADHERENT') or hasRole('ROLE_ENSEIGNANT')")
     @PutMapping("/{id}/inscriptions")
     public Cours postInscriptionParticipant(@PathVariable("id") Long idCours, @RequestParam("participant") String idPar) {
         long idParticipant = Long.parseLong(idPar);
@@ -83,6 +86,7 @@ public class CoursController {
         }
     }
 
+    @PreAuthorize("#oauth2.hasScope('write') and hasRole('ROLE_ENSEIGNANT')")
     @PostMapping("")
     public Cours postCours(@RequestBody Cours cours) {
 
