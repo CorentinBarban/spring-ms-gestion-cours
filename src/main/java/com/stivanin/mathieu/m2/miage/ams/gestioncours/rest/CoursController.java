@@ -1,10 +1,12 @@
 package com.stivanin.mathieu.m2.miage.ams.gestioncours.rest;
 
+import com.stivanin.mathieu.m2.miage.ams.gestioncours.DTO.StatistiquesCours;
 import com.stivanin.mathieu.m2.miage.ams.gestioncours.entities.Cours;
 import com.stivanin.mathieu.m2.miage.ams.gestioncours.exceptions.BadDateException;
 import com.stivanin.mathieu.m2.miage.ams.gestioncours.exceptions.CoursNotFoundException;
 import com.stivanin.mathieu.m2.miage.ams.gestioncours.exceptions.InscriptionException;
 import com.stivanin.mathieu.m2.miage.ams.gestioncours.services.GestionCoursMetier;
+import com.stivanin.mathieu.m2.miage.ams.gestioncours.services.GestionStatistiqueMetier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +26,9 @@ public class CoursController {
 
     @Autowired
     GestionCoursMetier gestionCoursMetier;
+
+    @Autowired
+    GestionStatistiqueMetier gestionStatistiqueMetier;
 
     @GetMapping("/{id}")
     public Cours getCours(@PathVariable("id") Long idCours) {
@@ -97,5 +102,12 @@ public class CoursController {
             throw new ResponseStatusException(
                     HttpStatus.NOT_FOUND, e.getMessage(), e);
         }
+    }
+
+    @PreAuthorize("#oauth2.hasScope('write') and hasRole('ROLE_PRESIDENT')")
+    @GetMapping(path = "/statistiques")
+    public StatistiquesCours getStatistiqueAssociation() {
+        logger.info("Connaitre les  statistiques de miage sous l'eau ");
+        return this.gestionStatistiqueMetier.obtenirStatistiqueCours();
     }
 }
