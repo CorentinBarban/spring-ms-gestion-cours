@@ -18,6 +18,9 @@ public class GestionCoursImpl implements GestionCoursMetier {
     @Autowired
     CoursRepository coursRepository;
 
+    @Autowired
+    SequenceGeneratorService sequenceGenerator;
+
     /**
      * Lister tous les cours d'un enseignant
      *
@@ -47,7 +50,7 @@ public class GestionCoursImpl implements GestionCoursMetier {
      */
     @Override
     public Cours creerCours(Cours cours) throws BadDateException {
-
+        cours.setIdCours(sequenceGenerator.generateSequence(Cours.SEQUENCE_NAME));
         Date jour = new Date();
         Calendar c = Calendar.getInstance();
         c.setTime(jour);
